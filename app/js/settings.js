@@ -52,7 +52,7 @@ window.Settings = function () {
             'cruller.tasty.sexy',
             'seed3.twister.net.co',
             'twisterseed.tk',
-            'cruller.tasty.sexy'
+            'twister-seeder.muh.freedu.ms'
         ]
     };
 
