@@ -178,6 +178,7 @@ module.exports = function (grunt) {
             twister_osx_x64: {
                 options: {
                     archive: 'build/twister_osx_x64.tar.gz',
+                    level: 9,
                     pretty: true
                 },
                 files: [
