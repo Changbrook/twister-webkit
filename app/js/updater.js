@@ -3,7 +3,7 @@
 window.addEventListener('init', function () {
 
     var currentVersion = nw.App.manifest.version,
-        tagsURL = 'https://api.github.com/repos/iShift/twister-webkit/releases';
+        tagsURL = 'https://api.github.com/repos/dryabov/twister-webkit/releases';
 
     function version_compare(v1, v2) {
         v1 = v1.split('.');
