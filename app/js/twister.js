@@ -97,11 +97,11 @@ window.Twister = function () {
     try {
         if (!fs.existsSync(settings.twisterdDatadir + ds + 'twisterwallet.dat')) {
             try {
-                fs.mkdirSync(dirname(settings.twisterdDatadir));
+                fs.mkdirSync(settings.twisterdDatadir);
             } catch (e) {
                 console.log(e);
             }
-            /*copyRecursiveSync(appDir + ds + 'bootstrap', settings.twisterdDatadir);*/
+            copyRecursiveSync(appDir + ds + 'bootstrap', settings.twisterdDatadir);
         }
     } catch (e) {
         console.log(e);
@@ -184,6 +184,11 @@ window.Twister = function () {
         }
         if (settings.dhtProxy) {
             twisterd_args_daemon.push('-dhtproxy');
+        }
+        if (!fs.existsSync(settings.twisterdDatadir + ds + 'chainstate') &&
+             fs.existsSync(settings.twisterdDatadir + ds + 'blocks')
+        ) {
+            twisterd_args_daemon.push('-reindex');
         }
 
         childDaemon = rpcCall(twisterd_args_daemon, function (error) {
