@@ -109,17 +109,6 @@
     };
 
     /**
-     * Load theme
-     */
-    win.updateTheme = function () {
-        window.getIframeDocument().location =
-            'http://' +
-            settings.rpcUser + ':' + settings.rpcPassword + '@' +
-            settings.rpcHost + ':' + settings.rpcPort +
-            '/' + settings.theme + '/home.html';
-    };
-
-    /**
      * Display loader
      */
     win.displayLoader = function () {
@@ -130,10 +119,17 @@
      * Hide loading animation and go to Twister interface
      */
     win.isBroken = true;
+    var isInitialization = true;
     window.addEventListener('twister', function () {
         if (win.isBroken) {
             win.isBroken = false;
-            win.updateTheme();
+            var page = (isInitialization && !defaultScreenName) ? 'login.html' : 'home.html';
+            isInitialization = false;
+            window.getIframeDocument().location =
+                'http://' +
+                settings.rpcUser + ':' + settings.rpcPassword + '@' +
+                settings.rpcHost + ':' + settings.rpcPort +
+                '/' + page;
         }
     });
 

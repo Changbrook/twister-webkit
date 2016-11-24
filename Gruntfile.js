@@ -90,62 +90,6 @@ module.exports = function (grunt) {
                     }
                 ]
             },
-            theme_calm: {
-                files: [
-                    {
-                        cwd: 'build/themes/twister-calm-master',
-                        src: ['**'],
-                        dest: 'build/twister/win/html/calm/',
-                        expand: true
-                    },
-                    {
-                        cwd: 'build/themes/twister-calm-master',
-                        src: ['**'],
-                        dest: 'build/twister/osx/twister.app/Contents/Resources/html/calm/',
-                        expand: true
-                    },
-                    {
-                        cwd: 'build/themes/twister-calm-master',
-                        src: ['**'],
-                        dest: 'build/twister/linux32/html/calm/',
-                        expand: true
-                    },
-                    {
-                        cwd: 'build/themes/twister-calm-master',
-                        src: ['**'],
-                        dest: 'build/twister/linux64/html/calm/',
-                        expand: true
-                    }
-                ]
-            },
-            theme_nin: {
-                files: [
-                    {
-                        cwd: 'build/themes/twister-nin-master',
-                        src: ['**'],
-                        dest: 'build/twister/win/html/nin/',
-                        expand: true
-                    },
-                    {
-                        cwd: 'build/themes/twister-nin-master',
-                        src: ['**'],
-                        dest: 'build/twister/osx/twister.app/Contents/Resources/html/nin/',
-                        expand: true
-                    },
-                    {
-                        cwd: 'build/themes/twister-nin-master',
-                        src: ['**'],
-                        dest: 'build/twister/linux32/html/nin/',
-                        expand: true
-                    },
-                    {
-                        cwd: 'build/themes/twister-nin-master',
-                        src: ['**'],
-                        dest: 'build/twister/linux64/html/nin/',
-                        expand: true
-                    }
-                ]
-            },
             empty: {
                 files: {
                     'build/twister/win/html/': 'empty.html',
@@ -214,19 +158,7 @@ module.exports = function (grunt) {
                     {
                         cwd: 'build/themes/twister-html-master',
                         src: ['**'],
-                        dest: 'build-win/source/html/default/',
-                        expand: true
-                    },
-                    {
-                        cwd: 'build/themes/twister-calm-master',
-                        src: ['**'],
-                        dest: 'build-win/source/html/calm/',
-                        expand: true
-                    },
-                    {
-                        cwd: 'build/themes/twister-nin-master',
-                        src: ['**'],
-                        dest: 'build-win/source/html/nin/',
+                        dest: 'build-win/source/html/',
                         expand: true
                     },
                     {
@@ -358,16 +290,6 @@ module.exports = function (grunt) {
                     'build/download/twister-theme-default.zip': 'https://codeload.github.com/miguelfreitas/twister-html/zip/master'
                 }
             },
-            twister_theme_calm: {
-                files: {
-                    'build/download/twister-theme-calm.zip': 'https://codeload.github.com/iHedgehog/twister-calm/zip/master'
-                }
-            },
-            twister_theme_nin: {
-                files: {
-                    'build/download/twister-theme-nin.zip': 'https://codeload.github.com/myleneb/twister-nin/zip/master'
-                }
-            },
             bootstrap_db48: {
                 src: '<%= twister_bootstrap_db48_url %>',
                 dest: 'build/download/bootstrap48.zip'
@@ -384,14 +306,6 @@ module.exports = function (grunt) {
         unzip: {
             twister_default: {
                 src: 'build/download/twister-theme-default.zip',
-                dest: 'build/themes'
-            },
-            twister_calm: {
-                src: 'build/download/twister-theme-calm.zip',
-                dest: 'build/themes'
-            },
-            twister_nin: {
-                src: 'build/download/twister-theme-nin.zip',
                 dest: 'build/themes'
             },
             bootstrap_db48: {
@@ -434,14 +348,8 @@ module.exports = function (grunt) {
         'copy:nodewebkit_locales',
         // add themes
         'curl:twister_theme_default',
-        'curl:twister_theme_calm',
-        'curl:twister_theme_nin',
         'unzip:twister_default',
-        'unzip:twister_calm',
-        'unzip:twister_nin',
         'copy:theme_default',
-        'copy:theme_calm',
-        'copy:theme_nin',
         'copy:empty',
         // add blockchain bootstrap
         'curl:bootstrap_db48',
@@ -465,14 +373,8 @@ module.exports = function (grunt) {
         'copy:nodewebkit_locales',
         // add themes
         'curl:twister_theme_default',
-        'curl:twister_theme_calm',
-        'curl:twister_theme_nin',
         'unzip:twister_default',
-        'unzip:twister_calm',
-        'unzip:twister_nin',
         'copy:theme_default',
-        'copy:theme_calm',
-        'copy:theme_nin',
         'copy:empty',
         // add blockchain bootstrap
         'curl:bootstrap_db48',
@@ -492,14 +394,8 @@ module.exports = function (grunt) {
         'nodewebkit',
         // add themes
         'curl:twister_theme_default',
-        'curl:twister_theme_calm',
-        'curl:twister_theme_nin',
         'unzip:twister_default',
-        'unzip:twister_calm',
-        'unzip:twister_nin',
         'copy:theme_default',
-        'copy:theme_calm',
-        'copy:theme_nin',
         'copy:empty',
         // add blockchain bootstrap
 //        'curl:bootstrap_db48',
@@ -520,14 +416,8 @@ module.exports = function (grunt) {
         'copy:nodewebkit_locales',
         // add themes
         'curl:twister_theme_default',
-        'curl:twister_theme_calm',
-        'curl:twister_theme_nin',
         'unzip:twister_default',
-        'unzip:twister_calm',
-        'unzip:twister_nin',
         'copy:theme_default',
-        'copy:theme_calm',
-        'copy:theme_nin',
         'copy:empty',
         // add blockchain bootstrap
 //        'curl:bootstrap_db48',
@@ -545,14 +435,8 @@ module.exports = function (grunt) {
         'copy:nodewebkit_locales',
         // add themes
         'curl:twister_theme_default',
-        'curl:twister_theme_calm',
-        'curl:twister_theme_nin',
         'unzip:twister_default',
-        'unzip:twister_calm',
-        'unzip:twister_nin',
         'copy:theme_default',
-        'copy:theme_calm',
-        'copy:theme_nin',
         'copy:empty',
         // add blockchain bootstrap
 //        'curl:bootstrap_db48',

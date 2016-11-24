@@ -175,6 +175,7 @@ Section "Core Files" sec_core
   File /r "source\locales"
   ; Add twister-core
   File /r "source\bin"
+  File /r "source\html"
 
 ; === Shortcuts ===
   CreateShortCut "$INSTDIR\${PRODUCT_NAME}.lnk" "$INSTDIR\${PRODUCT_MAINEXE}" "" "$INSTDIR\${PRODUCT_ICON}"
@@ -183,27 +184,6 @@ Section "Core Files" sec_core
   CreateShortCut "$SMPROGRAMS\$ICONS_GROUP\${PRODUCT_NAME}.lnk" "$INSTDIR\${PRODUCT_MAINEXE}" "" "$INSTDIR\${PRODUCT_ICON}"
   !insertmacro MUI_STARTMENU_WRITE_END
 SectionEnd
-
-SectionGroup /e "Themes" sec_themes
-
-  Section "Default" sec_themes_default
-    SectionIn RO
-    SetOutPath "$INSTDIR\html"
-    File /r "source\html\default"
-    File "source\html\empty.html"
-  SectionEnd
-
-  Section "Calm" sec_themes_calm
-    SetOutPath "$INSTDIR\html"
-    File /r "source\html\calm"
-  SectionEnd
-
-  Section "Nin" sec_themes_nin
-    SetOutPath "$INSTDIR\html"
-    File /r "source\html\nin"
-  SectionEnd
-
-SectionGroupEnd
 
 Section /o "Blockchain dump" sec_blockchain
   SetOutPath "$PROFILE\.twister"

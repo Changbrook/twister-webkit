@@ -1,6 +1,5 @@
 translates = {
     'Open Twister': 'Відкрити Twister',
-    'Themes': 'Тема оформлення',
     'Minimize to tray': 'Згортати до панелі завдань',
     'Request attention': 'Сповіщати про повідомлення',
     'Always on Top': 'Поверх усіх вікон',

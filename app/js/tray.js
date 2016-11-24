@@ -15,8 +15,7 @@ window.addEventListener('init', function () {
         menuTray = new gui.Menu(),
         skipMinimizeToTray = false,
         reNewMessages = /^\((\d+)\)/,
-        observer,
-        themeDir = appDir + ds + 'html';
+        observer;
 
     function restoreFromTray() {
         win.show();
@@ -27,18 +26,6 @@ window.addEventListener('init', function () {
     gui.App.on('reopen', function () {
         restoreFromTray();
     });
-
-    function getThemesList() {
-        var files = fs.readdirSync(themeDir),
-            dirs = [];
-        for (var i = files.length - 1; i >= 0; i--) {
-            var file = files[i];
-            if (file[0] !== '.' && fs.statSync(themeDir + ds + file).isDirectory()) {
-                dirs.push(file);
-            }
-        }
-        return dirs;
-    }
 
     function restartTwister() {
         win.isBroken = true;
@@ -61,9 +48,6 @@ window.addEventListener('init', function () {
             click: function () {
                 restoreFromTray();
             }
-        }),
-        itemThemes = new gui.MenuItem({
-            label: __('Themes')
         }),
         itemMinimizeToTray = new gui.MenuItem({
             type: 'checkbox',
@@ -132,33 +116,8 @@ window.addEventListener('init', function () {
             }
         });
 
-    var submenu = new gui.Menu(),
-        themes = getThemesList();
-
-    themes.forEach(function (theme) {
-        submenu.append(new gui.MenuItem({
-            type: 'checkbox',
-            label: theme,
-            checked: theme === settings.theme,
-            click: function () {
-                var theme = this.label;
-                for (var i = submenu.items.length - 1; i >= 0; i--) {
-                    if (submenu.items[i].label !== theme) {
-                        submenu.items[i].checked = false;
-                    }
-                }
-                settings.theme = theme;
-                if (window.$ && window.$.localStorage) {
-                    window.$.localStorage.set('options:theme', theme);
-                }
-                win.updateTheme();
-            }
-        }));
-    });
-    itemThemes.submenu = submenu;
 
     menuTray.append(itemOpen);
-    menuTray.append(itemThemes);
     menuTray.append(itemMinimizeToTray);
     menuTray.append(itemRequestAttention);
     menuTray.append(itemAlwaysOnTop);
