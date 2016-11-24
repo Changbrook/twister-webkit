@@ -59,7 +59,7 @@ window.Twister = function () {
     }
 
     function getRandomPassword() {
-        var r = require('crypto').randomBytes(4).readUInt32LE(0) | 0x80000000;
+        var r = require('crypto').randomBytes(4).readUInt32LE(0) & ~0x80000000;
         return r.toString(36);
     }
 
