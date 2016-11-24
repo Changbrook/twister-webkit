@@ -164,6 +164,7 @@ module.exports = function (grunt) {
             twister_win_ia32: {
                 options: {
                     archive: 'build/twister_win_ia32.zip',
+                    level: 9,
                     pretty: true
                 },
                 files: [
@@ -197,6 +198,7 @@ module.exports = function (grunt) {
             twister_linux_ia32: {
                 options: {
                     archive: 'build/twister_linux_ia32.tar.gz',
+                    level: 9,
                     pretty: true
                 },
                 files: [
@@ -229,6 +231,7 @@ module.exports = function (grunt) {
             twister_linux_x64: {
                 options: {
                     archive: 'build/twister_linux_x64.tar.gz',
+                    level: 9,
                     pretty: true
                 },
                 files: [
