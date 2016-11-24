@@ -6,7 +6,6 @@
     "chromium-args": "--auth-schemes='basic'",
     "window": {
         "title": "Twister",
-        "toolbar": false,
         "icon": "logo/twister_logo.png",
         "frame": true,
         "show": false

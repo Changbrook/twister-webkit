@@ -169,9 +169,10 @@ Section "Core Files" sec_core
   File "${PRODUCT_ICON}"
   ; Add node-webkit files
   File "source\${PRODUCT_MAINEXE}"
-  File "source\nw.pak"
   File "source\icudtl.dat"
+  File "source\*.bin"
   File "source\*.dll"
+  File "source\*.pak""
   File /r "source\locales"
   ; Add twister-core
   File /r "source\bin"

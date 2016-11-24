@@ -171,7 +171,7 @@ window.Twister = function () {
             '-rpcport=' + settings.rpcPort
         ];
 
-        win.setWaitCursor(true);
+        window.setWaitCursor(true);
         isTwisterdOn = false; // will be set to true in waitTwisterStart
 
         var twisterd_args_daemon = [
@@ -189,7 +189,7 @@ window.Twister = function () {
         childDaemon = rpcCall(twisterd_args_daemon, function (error) {
             childDaemon = null;
             if (error && error.killed === true) {
-                win.emit('twisterstop');
+                window.dispatchEvent(new CustomEvent('twisterstop'));
             } else if (!isTwisterdOn && !isStop) {
                 var event = new CustomEvent('twisterfail');
                 event.error = {
@@ -233,17 +233,17 @@ window.Twister = function () {
             return;
         }
         curNodeIndex = Infinity;
-        win.setWaitCursor(true);
+        window.setWaitCursor(true);
 
         isStop = true;
 
-        win.addListener('twisterstop', function () {
+        window.addEventListener('twisterstop', function () {
             childDaemon = null;
             isStop = false;
             if (callback) {
                 callback();
             }
-            win.removeAllListeners('twisterstop');
+            window.removeAllListeners('twisterstop');
         });
 
         rpcCall(['stop'], function (error) {
@@ -333,7 +333,7 @@ window.Twister = function () {
                 that.isWorking(function (bStarted) {
                     isTwisterdOn = bStarted;
                     if (bStarted) {
-                        win.setWaitCursor(false);
+                        window.setWaitCursor(false);
                         curNodeIndex = 0;
                         loopAddNodes();
                         if (callback) {
@@ -356,7 +356,7 @@ window.Twister = function () {
             if (isWorking) {
                 waitTwisterStop(callback);
             } else {
-                win.setWaitCursor(false);
+                window.setWaitCursor(false);
                 if (callback) {
                     callback();
                 }

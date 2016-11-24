@@ -6,13 +6,12 @@ module.exports = function (grunt) {
 
     // Platforms
     var inputPlatforms = (grunt.cli.tasks.length === 1 && ['win','nsis','osx','mac','linux32','linux64'].indexOf(grunt.cli.tasks[0]) !== -1)
-            ? grunt.cli.tasks[0] : 'all',
-        buildPlatforms = {
-            mac: /mac|osx|all/.test(inputPlatforms),
-            win: /win|nsis|all/.test(inputPlatforms),
-            linux32: /linux32|all/.test(inputPlatforms),
-            linux64: /linux64|all/.test(inputPlatforms)
-        };
+            ? grunt.cli.tasks[0] : 'all';
+    var buildPlatforms = [];
+    if (/mac|osx|all/.test(inputPlatforms)) buildPlatforms.push('osx64');
+    if (/win|nsis|all/.test(inputPlatforms)) buildPlatforms.push('win32');
+    if (/linux32|all/.test(inputPlatforms)) buildPlatforms.push('linux32');
+    if (/linux64|all/.test(inputPlatforms)) buildPlatforms.push('linux64');
 
     // Project configuration.
     grunt.initConfig({
@@ -30,28 +29,6 @@ module.exports = function (grunt) {
             nsis: ['build-win/source/**/*', 'build-win/*.exe']
         },
         copy: {
-            nodewebkit_locales: {
-                files: [
-                    {
-                        cwd: 'build/cache/<%= nodewebkit.options.version %>/win',
-                        src: ['locales/**'],
-                        dest: 'build/twister/win/',
-                        expand: true
-                    },
-                    {
-                        cwd: 'build/cache/<%= nodewebkit.options.version %>/linux32',
-                        src: ['locales/**'],
-                        dest: 'build/twister/linux32/',
-                        expand: true
-                    },
-                    {
-                        cwd: 'build/cache/<%= nodewebkit.options.version %>/linux64',
-                        src: ['locales/**'],
-                        dest: 'build/twister/linux64/',
-                        expand: true
-                    }
-                ]
-            },
             app: {
                 files: [
                     {
@@ -67,33 +44,33 @@ module.exports = function (grunt) {
                     {
                         cwd: 'build/themes/twister-html-master',
                         src: ['**'],
-                        dest: 'build/twister/win/html/default/',
+                        dest: 'build/twister/win32/html/',
                         expand: true
                     },
                     {
                         cwd: 'build/themes/twister-html-master',
                         src: ['**'],
-                        dest: 'build/twister/osx/twister.app/Contents/Resources/html/default/',
+                        dest: 'build/twister/osx64/twister.app/Contents/Resources/html/',
                         expand: true
                     },
                     {
                         cwd: 'build/themes/twister-html-master',
                         src: ['**'],
-                        dest: 'build/twister/linux32/html/default/',
+                        dest: 'build/twister/linux32/html/',
                         expand: true
                     },
                     {
                         cwd: 'build/themes/twister-html-master',
                         src: ['**'],
-                        dest: 'build/twister/linux64/html/default/',
+                        dest: 'build/twister/linux64/html/',
                         expand: true
                     }
                 ]
             },
             empty: {
                 files: {
-                    'build/twister/win/html/': 'empty.html',
-                    'build/twister/osx/twister.app/Contents/Resources/html/': 'empty.html',
+                    'build/twister/win32/html/': 'empty.html',
+                    'build/twister/osx64/twister.app/Contents/Resources/html/': 'empty.html',
                     'build/twister/linux32/html/': 'empty.html',
                     'build/twister/linux64/html/': 'empty.html'
                 }
@@ -103,13 +80,13 @@ module.exports = function (grunt) {
                     {
                         cwd: 'build/bootstrap/db48',
                         src: ['**'],
-                        dest: 'build/twister/win/bootstrap/',
+                        dest: 'build/twister/win32/bootstrap/',
                         expand: true
                     }/*,
                     {
                         cwd: 'build/bootstrap',
                         src: ['**'],
-                        dest: 'build/twister/osx/twister.app/Contents/Resources/bootstrap/',
+                        dest: 'build/twister/osx64/twister.app/Contents/Resources/bootstrap/',
                         expand: true
                     },
                     {
@@ -131,7 +108,7 @@ module.exports = function (grunt) {
                     {
                         cwd: 'build/twister-win32-bundle',
                         src: ['**'],
-                        dest: 'build/twister/win/bin/',
+                        dest: 'build/twister/win32/bin/',
                         expand: true
                     }
                 ]
@@ -141,7 +118,7 @@ module.exports = function (grunt) {
                     {
                         cwd: 'build/download/twister-osx-bundle/bin',
                         src: ['**'],
-                        dest: 'build/twister/osx/twister.app/Contents/Resources/bin/',
+                        dest: 'build/twister/osx64/twister.app/Contents/Resources/bin/',
                         mode: 511, // =0777
                         expand: true
                     }
@@ -150,7 +127,7 @@ module.exports = function (grunt) {
             nsis: {
                 files: [
                     {
-                        cwd: 'build/twister/win/',
+                        cwd: 'build/twister/win32/',
                         src: ['**'],
                         dest: 'build-win/source',
                         expand: true
@@ -170,16 +147,14 @@ module.exports = function (grunt) {
                 ]
             }
         },
-        nodewebkit: {
+        nwjs: {
             src: ['build/source/**/*'],
             options: {
                 buildDir: 'build',
                 cacheDir: 'build/cache',
-                version: '0.10.5',
-                win: buildPlatforms.win,
-                mac: buildPlatforms.mac,
-                linux32: buildPlatforms.linux32,
-                linux64: buildPlatforms.linux64,
+                version: '0.18.8',
+                flavor: 'normal', // 'sdk' for DevTools, 'normal' for production
+                platforms: buildPlatforms,
                 macCredits: 'build-mac/credits.html',
                 macIcns: 'build-mac/nw.icns',
 //                winIco: 'build-win/twister.ico'
@@ -193,7 +168,7 @@ module.exports = function (grunt) {
                 },
                 files: [
                     {
-                        cwd: 'build/twister/win',
+                        cwd: 'build/twister/win32',
                         src: ['**'],
                         expand: true
                     }
@@ -206,7 +181,7 @@ module.exports = function (grunt) {
                 },
                 files: [
                     {
-                        cwd: 'build/twister/osx/',
+                        cwd: 'build/twister/osx64/',
                         src: ['**'],
                         mode: 484, // = 0744
                         expand: true
@@ -335,7 +310,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-curl');
     grunt.loadNpmTasks('grunt-zip');
     grunt.loadNpmTasks('grunt-contrib-copy');
-    grunt.loadNpmTasks('grunt-node-webkit-builder');
+    grunt.loadNpmTasks('grunt-nw-builder');
     grunt.loadNpmTasks('grunt-contrib-compress');
     grunt.loadNpmTasks('grunt-exec');
     grunt.loadNpmTasks('grunt-contrib-clean');
@@ -344,8 +319,7 @@ module.exports = function (grunt) {
     grunt.registerTask('default', [
         // make node-webkit app
         'copy:app',
-        'nodewebkit',
-        'copy:nodewebkit_locales',
+        'nwjs',
         // add themes
         'curl:twister_theme_default',
         'unzip:twister_default',
@@ -369,8 +343,7 @@ module.exports = function (grunt) {
     grunt.registerTask('win', [
         // make node-webkit app
         'copy:app',
-        'nodewebkit',
-        'copy:nodewebkit_locales',
+        'nwjs',
         // add themes
         'curl:twister_theme_default',
         'unzip:twister_default',
@@ -391,7 +364,7 @@ module.exports = function (grunt) {
     grunt.registerTask('osx', [
         // make node-webkit app
         'copy:app',
-        'nodewebkit',
+        'nwjs',
         // add themes
         'curl:twister_theme_default',
         'unzip:twister_default',
@@ -412,8 +385,7 @@ module.exports = function (grunt) {
     grunt.registerTask('linux32', [
         // make node-webkit app
         'copy:app',
-        'nodewebkit',
-        'copy:nodewebkit_locales',
+        'nwjs',
         // add themes
         'curl:twister_theme_default',
         'unzip:twister_default',
@@ -431,8 +403,7 @@ module.exports = function (grunt) {
     grunt.registerTask('linux64', [
         // make node-webkit app
         'copy:app',
-        'nodewebkit',
-        'copy:nodewebkit_locales',
+        'nwjs',
         // add themes
         'curl:twister_theme_default',
         'unzip:twister_default',

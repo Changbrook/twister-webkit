@@ -4,8 +4,7 @@
  * Some global variables used by other scripts
  */
 
-var gui = require('nw.gui'),
-    win = gui.Window.get(),
+var win = nw.Window.get(),
 
     fs      = require('fs'),
     dirname = require('path').dirname,
@@ -29,7 +28,7 @@ if (isWin32 && !process.env.HOME) {
 
 // fix clipboard on OS X
 if (isMac) {
-    var nativeMenuBar = new gui.Menu({ type: 'menubar' });
+    var nativeMenuBar = new nw.Menu({ type: 'menubar' });
     nativeMenuBar.createMacBuiltin('twister-webkit');
     win.menu = nativeMenuBar;
 }

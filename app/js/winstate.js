@@ -22,8 +22,7 @@
  */
 
 (function () {
-    //var gui = require('nw.gui');
-    //var win = gui.Window.get();
+    //var win = nw.Window.get();
     var winState;
     var currWinMode;
     var resizeTimeout;
@@ -35,7 +34,7 @@
     // extra height added in linux x64 gnome-shell env, use it as workaround
     var deltaHeight = (function () {
         // use deltaHeight only in windows with frame enabled
-        if (gui.App.manifest.window.frame) return true; else return 'disabled';
+        if (nw.App.manifest.window.frame) return true; else return 'disabled';
     })();
 
 

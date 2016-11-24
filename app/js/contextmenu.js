@@ -6,37 +6,37 @@
 
 window.addEventListener('init', function () {
 
-    var menu = new gui.Menu(),
+    var menu = new nw.Menu(),
         contextURL = '',
-        itemOpenLink = new gui.MenuItem({
+        itemOpenLink = new nw.MenuItem({
             label: __('Open in browser'),
             click: function () {
-                gui.Shell.openExternal(contextURL);
+                nw.Shell.openExternal(contextURL);
             }
         }),
-        itemCopy = new gui.MenuItem({
+        itemCopy = new nw.MenuItem({
             label: __('Copy'),
             click: function () {
                 window.getIframeDocument().execCommand("copy");
             }
         }),
-        itemCopyLink = new gui.MenuItem({
+        itemCopyLink = new nw.MenuItem({
             label: __('Copy link'),
             click: function () {
-                var clipboard = gui.Clipboard.get();
+                var clipboard = nw.Clipboard.get();
                 clipboard.set(contextURL, 'text');
             }
         }),
-        itemPaste = new gui.MenuItem({
+        itemPaste = new nw.MenuItem({
             label: __('Paste'),
             click: function () {
                 window.getIframeDocument().execCommand("paste");
             }
         }),
-        itemReload = new gui.MenuItem({
+        itemReload = new nw.MenuItem({
             label: __('Reload'),
             click: function () {
-                setTimeout(win.reloadFrame, 0);
+                setTimeout(window.reloadFrame, 0);
             }
         });
 
@@ -44,7 +44,7 @@ window.addEventListener('init', function () {
     menu.append(itemCopy);
     menu.append(itemCopyLink);
     menu.append(itemPaste);
-    menu.append(new gui.MenuItem({type: 'separator'}));
+    menu.append(new nw.MenuItem({type: 'separator'}));
     menu.append(itemReload);
 
     function onContextMenu(event) {
@@ -54,7 +54,7 @@ window.addEventListener('init', function () {
         // copy
         itemCopy.enabled = bTextInput || !window.getIframeDocument().getSelection().isCollapsed;
         // paste
-        itemPaste.enabled = bTextInput && !!gui.Clipboard.get().get('text');
+        itemPaste.enabled = bTextInput && !!nw.Clipboard.get().get('text');
 
         // copy link
         while (!(/^(a|html)$/i).test(el.nodeName)) {

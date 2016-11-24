@@ -9,10 +9,10 @@ window.addEventListener('init', function () {
     var icon_normal = isMac ? 'logo/twister_icon16_mac.png' : 'logo/twister_icon16.png',
         icon_new = 'logo/twister_alticon16.png',
         icon_die = 'logo/twister_redicon16.png',
-        tray = new gui.Tray({
+        tray = new nw.Tray({
             icon: icon_normal
         }),
-        menuTray = new gui.Menu(),
+        menuTray = new nw.Menu(),
         skipMinimizeToTray = false,
         reNewMessages = /^\((\d+)\)/,
         observer;
@@ -23,14 +23,14 @@ window.addEventListener('init', function () {
     }
 
     // click on the dock icon in MacOS
-    gui.App.on('reopen', function () {
+    nw.App.on('reopen', function () {
         restoreFromTray();
     });
 
     function restartTwister() {
-        win.isBroken = true;
-        win.displayLoader();
-        twister.restart(win.onTwisterStart);
+        window.isBroken = true;
+        window.displayLoader();
+        twister.restart(window.onTwisterStart);
         updateProxyMenuStatus();
     }
 
@@ -43,13 +43,13 @@ window.addEventListener('init', function () {
 
     /** TRAY MENU **/
 
-    var itemOpen = new gui.MenuItem({
+    var itemOpen = new nw.MenuItem({
             label: __('Open Twister'),
             click: function () {
                 restoreFromTray();
             }
         }),
-        itemMinimizeToTray = new gui.MenuItem({
+        itemMinimizeToTray = new nw.MenuItem({
             type: 'checkbox',
             label: __('Minimize to tray'),
             checked: settings.minimizeToTray,
@@ -60,7 +60,7 @@ window.addEventListener('init', function () {
                 }
             }
         }),
-        itemRequestAttention = new gui.MenuItem({
+        itemRequestAttention = new nw.MenuItem({
             type: 'checkbox',
             label: __('Request attention'),
             checked: settings.requestAttention,
@@ -68,7 +68,7 @@ window.addEventListener('init', function () {
                 settings.requestAttention = this.checked;
             }
         }),
-        itemAlwaysOnTop = new gui.MenuItem({
+        itemAlwaysOnTop = new nw.MenuItem({
             type: 'checkbox',
             label: __('Always on Top'),
             checked: settings.alwaysOnTop,
@@ -77,7 +77,7 @@ window.addEventListener('init', function () {
                 win.setAlwaysOnTop(settings.alwaysOnTop);
             }
         }),
-        itemRunMinimized = new gui.MenuItem({
+        itemRunMinimized = new nw.MenuItem({
             type: 'checkbox',
             label: __('Run Minimized'),
             checked: settings.runMinimized,
@@ -85,7 +85,7 @@ window.addEventListener('init', function () {
                 settings.runMinimized = this.checked;
             }
         }),
-        itemProxy = new gui.MenuItem({
+        itemProxy = new nw.MenuItem({
             type: 'checkbox',
             label: __('Use proxy: ') + (settings.proxy === '127.0.0.1:9050' ? 'Tor' : settings.proxy),
             checked: settings.enableProxy,
@@ -94,7 +94,7 @@ window.addEventListener('init', function () {
                 restartTwister();
             }
         }),
-        itemDhtProxy = new gui.MenuItem({
+        itemDhtProxy = new nw.MenuItem({
             type: 'checkbox',
             label: __('DHT relay mode'),
             checked: settings.dhtProxy,
@@ -103,19 +103,18 @@ window.addEventListener('init', function () {
                 restartTwister();
             }
         }),
-        itemRestart = new gui.MenuItem({
+        itemRestart = new nw.MenuItem({
             label: __('Restart'),
             click: function () {
                 restartTwister();
             }
         }),
-        itemQuit = new gui.MenuItem({
+        itemQuit = new nw.MenuItem({
             label: __('Quit'),
             click: function () {
                 win.close();
             }
         });
-
 
     menuTray.append(itemOpen);
     menuTray.append(itemMinimizeToTray);
@@ -124,7 +123,7 @@ window.addEventListener('init', function () {
     menuTray.append(itemRunMinimized);
     menuTray.append(itemProxy);
     menuTray.append(itemDhtProxy);
-    menuTray.append(new gui.MenuItem({type: 'separator'}));
+    menuTray.append(new nw.MenuItem({type: 'separator'}));
     menuTray.append(itemRestart);
     menuTray.append(itemQuit);
 

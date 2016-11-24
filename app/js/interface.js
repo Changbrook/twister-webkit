@@ -35,6 +35,8 @@
         return iframe ? iframe.contentWindow.document : null;
     };
 
+    var defaultScreenName = null;
+
     win.on('document-start', function () {
         /**
          * Trigger updateIframe event after change iframe URL
@@ -48,6 +50,7 @@
          * Change RPC login/pass
          */
         window.getIframeDocument().addEventListener('DOMContentLoaded', function() {
+            defaultScreenName = getIframeWindow().localStorage.getItem('defaultScreenName');
             win.eval(iframe,
                 "twisterRpc = function (method, params, resultFunc, resultArg, errorFunc, errorArg) {" +
                     "var foo = new $.JsonRpcClient({ ajaxUrl: '/', username: '" + settings.rpcUser.replace(/'/g, "\\'") +
@@ -76,7 +79,7 @@
      */
     win.on('close', function () {
         win.hide();
-        win.displayLoader();
+        window.displayLoader();
         twister.tryStop(function () {
             win.close(true);
         });
@@ -104,25 +107,25 @@
     /**
      * Reload iframe document
      */
-    win.reloadFrame = function () {
+    window.reloadFrame = function () {
         window.getIframeWindow().location.reload();
     };
 
     /**
      * Display loader
      */
-    win.displayLoader = function () {
+    window.displayLoader = function () {
         window.getIframeDocument().location = 'loader.html';
     };
 
     /**
      * Hide loading animation and go to Twister interface
      */
-    win.isBroken = true;
+    window.isBroken = true;
     var isInitialization = true;
     window.addEventListener('twister', function () {
-        if (win.isBroken) {
-            win.isBroken = false;
+        if (window.isBroken) {
+            window.isBroken = false;
             var page = (isInitialization && !defaultScreenName) ? 'login.html' : 'home.html';
             isInitialization = false;
             window.getIframeDocument().location =
@@ -137,7 +140,7 @@
      * Set hourglass cursor
      * @param {boolean} wait
      */
-    win.setWaitCursor = function (wait) {
+    window.setWaitCursor = function (wait) {
         var doc = window.getIframeDocument();
         if (doc && doc.body) {
             doc.body.style.cursor = wait ? 'progress' : '';
@@ -147,7 +150,7 @@
     /**
      * Trigger twister event
      */
-    win.onTwisterStart = function () {
+    window.onTwisterStart = function () {
         window.dispatchEvent(new CustomEvent('twister'));
     };
 
@@ -164,7 +167,7 @@
         msg += '\n' + __('Restart again?');
 
         if (confirm(msg)) {
-            twister.restart(win.onTwisterStart);
+            twister.restart(window.onTwisterStart);
         } else {
             win.close();
         }
@@ -187,7 +190,7 @@
         /**
          * Start Twister daemon
          */
-        twister.tryStart(win.onTwisterStart);
+        twister.tryStart(window.onTwisterStart);
     });
 
 })();
