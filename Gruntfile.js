@@ -205,7 +205,7 @@ module.exports = function (grunt) {
                 files: [
                     {
                         cwd: 'build/twister/linux32/',
-                        src: ['html/**', 'nw.pak', 'icudtl.dat', 'libffmpegsumo.so', 'locales/**'],
+                        src: ['html/**', '*.bin', '*.pak', 'icudtl.dat', 'lib/**', 'locales/**'],
                         expand: true
                     },
                     {
@@ -238,7 +238,7 @@ module.exports = function (grunt) {
                 files: [
                     {
                         cwd: 'build/twister/linux64/',
-                        src: ['html/**', 'nw.pak', 'icudtl.dat', 'libffmpegsumo.so', 'locales/**'],
+                        src: ['html/**', '*.bin', '*.pak', 'icudtl.dat', 'lib/**', 'locales/**'],
                         expand: true
                     },
                     {
