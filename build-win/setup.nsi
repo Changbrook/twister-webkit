@@ -172,7 +172,7 @@ Section "Core Files" sec_core
   File "source\icudtl.dat"
   File "source\*.bin"
   File "source\*.dll"
-  File "source\*.pak""
+  File "source\*.pak"
   File /r "source\locales"
   ; Add twister-core
   File /r "source\bin"
